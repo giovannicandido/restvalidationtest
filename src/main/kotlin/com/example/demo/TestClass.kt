@@ -7,8 +7,8 @@ import javax.validation.constraints.NotEmpty
  * @author Giovanni Silva
  */
 class TestClass(
-        @NotEmpty
-        @Email
+        @get:NotEmpty
+        @get:Email
         val email: String
 ) {
     override fun toString(): String {

@@ -6,17 +6,12 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.HttpMethod
-import org.springframework.test.context.junit4.SpringRunner
-import java.net.URI
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-
-
-
-
-
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.test.context.junit4.SpringRunner
 
 
 /**
@@ -40,7 +35,6 @@ internal class TestCtrlTestClass {
     @Test
     fun test1() {
         val test = TestClass("shouldnotpass")
-        val string = objectMapper.writeValueAsString(test)
 
         val entity = HttpEntity<TestClass>(test, headers)
 
@@ -48,11 +42,59 @@ internal class TestCtrlTestClass {
                 createURLWithPort("/test"),
                 HttpMethod.POST,
                 entity,
-                TestClass::class.java
+                String.javaClass
         )
 
-        assertThat(response.statusCode).`isEqualTo`(404)
+        assertThat(response.statusCode).`isEqualTo`(HttpStatus.BAD_REQUEST)
 
+    }
+
+    @Test
+    fun test2() {
+        val test = TestClass("email@example.com")
+
+        val entity = HttpEntity<TestClass>(test, headers)
+
+        val response = restTemplate.exchange(
+                createURLWithPort("/test"),
+                HttpMethod.POST,
+                entity,
+                String.javaClass
+        )
+
+        assertThat(response.statusCode).`isEqualTo`(HttpStatus.OK)
+    }
+
+    @Test
+    fun testBasePath() {
+        val test = TestClass("email@example.com")
+
+        val entity = HttpEntity<TestClass>(test, headers)
+
+        val response = restTemplate.exchange(
+                createURLWithPort("/test-bug"),
+                HttpMethod.POST,
+                entity,
+                String.javaClass
+        )
+
+        assertThat(response.statusCode).`isEqualTo`(HttpStatus.OK)
+    }
+
+    @Test
+    fun testBasePath2() {
+        val test = TestClass("shouldnotpass")
+
+        val entity = HttpEntity<TestClass>(test, headers)
+
+        val response = restTemplate.exchange(
+                createURLWithPort("/test-bug"),
+                HttpMethod.POST,
+                entity,
+                String.javaClass
+        )
+
+        assertThat(response.statusCode).`isEqualTo`(HttpStatus.BAD_REQUEST)
     }
 
     private fun createURLWithPort(uri: String): String {
