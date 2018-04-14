@@ -1,5 +1,4 @@
 package com.example.demo
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,8 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class TestCtrlTestClass {
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
 
     @Autowired
     lateinit var restTemplate: TestRestTemplate
@@ -45,7 +42,7 @@ internal class TestCtrlTestClass {
                 String.javaClass
         )
 
-        assertThat(response.statusCode).`isEqualTo`(HttpStatus.BAD_REQUEST)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
 
     }
 
@@ -62,7 +59,7 @@ internal class TestCtrlTestClass {
                 String.javaClass
         )
 
-        assertThat(response.statusCode).`isEqualTo`(HttpStatus.OK)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
@@ -78,7 +75,7 @@ internal class TestCtrlTestClass {
                 String.javaClass
         )
 
-        assertThat(response.statusCode).`isEqualTo`(HttpStatus.OK)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
@@ -94,7 +91,7 @@ internal class TestCtrlTestClass {
                 String.javaClass
         )
 
-        assertThat(response.statusCode).`isEqualTo`(HttpStatus.BAD_REQUEST)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
     private fun createURLWithPort(uri: String): String {
